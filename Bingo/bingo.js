@@ -1,12 +1,8 @@
-// get user input and see it in the terminal of Node.js 
-const prompt = require('prompt-sync')({sigint: true});  
-
 // array of users objects
-let bingoUsers = []; 
-let ranking = [];
+let gameResults = []; 
 
 // function that creates the user object
-function userInfo (name, card, rounds, points) { 
+function userGameResult (name, card, rounds, points) { 
     return {
         name: name,
         card: card,
@@ -19,10 +15,22 @@ function userInfo (name, card, rounds, points) {
 let bingoCard = [1, 2, 3, 4, 5];
 let bingoCard2 = [5, 4, 3, 2, 1];
 
+// Player 1
+playBingo();
 
-function bingo() {
+// Player 2
+playBingo();
+
+console.log("And the order is: \n");
+gameResults.sort((a,b) => b.points - a.points); 
+gameResults.forEach(user=>console.log("Name: " + user.name + " points: " + user.points + "\n"))
+
+
+
+function playBingo() {
     name = prompt('Welcome. What is your name? ');
 
+    console.log(`${name}, this is your card.`);
     let myBingo = bingoCard;
     console.table(myBingo);
     
@@ -57,11 +65,7 @@ function bingo() {
             } else {
                 console.log('LINEA');
                 let finalPoints = maxPoints + myBingo.length - newRound;
-                ranking.push([name, finalPoints]);
-                //console.log(ranking);
-                //console.log(Object.entries(userInfo(name, myBingo, newRound, finalPoints))[0][1]);
-                //console.log(Object.entries(userInfo(name, myBingo, newRound, finalPoints))[3][1]);
-                bingoUsers.push( userInfo(name, myBingo, newRound, finalPoints));
+                gameResults.push( userGameResult(name, myBingo, newRound, finalPoints));
                 return;
             }
 
@@ -69,7 +73,7 @@ function bingo() {
             newRound = false;
             console.log('Ciao!');
             let finalPoints = 0;
-            bingoUsers.push( userInfo(name, myBingo, newRound, finalPoints));
+            gameResults.push( userGameResult(name, myBingo, newRound, finalPoints));
             return;
         }         
     
@@ -83,15 +87,3 @@ function bingo() {
 
 };
 
-bingo();
-
-console.log(bingoUsers);
-
-console.log(bingoUsers.length);
-
-bingo();
-
-console.log(bingoUsers);
-
-
-console.log(`And the order is: ` + ranking.sort((a,b) => b[1]-a[1]));
