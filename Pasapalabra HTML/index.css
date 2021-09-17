@@ -1,0 +1,83 @@
+/*html { 
+    background: url(images/bg.jpg) no-repeat center center fixed; 
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+}*/
+
+/*//https://css-tricks.com/snippets/sass/placing-items-circle/*/
+
+@mixin transform($property) {
+    -webkit-transform: $property;
+    -ms-transform: $property;
+    transform: $property;
+}
+
+@mixin on-circle($item-count, $circle-size, $item-size) {
+    
+    position: relative;
+    width:  $circle-size;
+    height: $circle-size;
+    padding: 0;
+    border-radius: 50%; 
+    list-style: none;       
+    
+
+    > * {
+      display: block;
+      position: absolute;
+      top:  50%; 
+      left: 50%;
+      width:  $item-size;
+      height: $item-size;
+      margin: -($item-size / 2);
+    
+      $angle: (360 / $item-count);
+      $rot: 0;
+  
+      @for $i from 1 through $item-count {
+        &:nth-of-type(#{$i}) {
+          transform: 
+            rotate($rot * 1deg) 
+            translate($circle-size / 2) 
+            rotate($rot * -1deg);
+        }
+  
+        $rot: $rot + $angle;
+      }
+    }
+}
+
+
+#container {
+    @include on-circle($item-count: 27, $circle-size: 20em, $item-size: 3em); 
+    background-color: aqua;
+
+
+    /*display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    width: 500px;
+    height: 500px;*/
+}
+
+li {
+    display: inline-block;
+    margin: 10px;
+}
+
+button {
+    border-radius: 50%;
+    transition: all 1s;
+}
+
+button:hover {
+    transform: scale(2.1);
+}
+
+h1 {
+    font-size: 2em;
+    text-align: center;
+}
+
